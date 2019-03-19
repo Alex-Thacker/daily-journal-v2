@@ -65,6 +65,7 @@ const createForm = () => {
     let moodLabel = document.createElement("label");
     moodLabel.textContent = "Mood for the day";
     let moodSelect = document.createElement("select");
+    moodSelect.id = "dropDown"
     let option1 = document.createElement("option");
     option1.value = "sad"
     option1.textContent = "sad"
@@ -98,3 +99,9 @@ const createForm = () => {
     frag.appendChild(form4)
     frag.appendChild(button)
 }
+
+createForm()
+let div = document.createElement("div")
+div.id = "divContainer"
+frag.appendChild(div)
+container.appendChild(frag)

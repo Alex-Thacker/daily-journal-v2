@@ -1,2 +1,0 @@
-createForm()
-container.appendChild(frag)
