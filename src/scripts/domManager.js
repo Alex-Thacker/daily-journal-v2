@@ -45,8 +45,9 @@ const createForm = () => {
     form3.action = "#";
     let fieldset3 = document.createElement("fieldset");
     let journalLabel = document.createElement("label");
-    journalLabel.textContent = "Journal entry"
+    journalLabel.textContent = "Journal entry (200 Characters allowed)"
     let journalTextArea = document.createElement("textarea")
+    journalTextArea.maxLength = 200
     journalTextArea.for = "journalEntry"
     journalTextArea.id = "journalEntry"
     journalTextArea.cols = "30";

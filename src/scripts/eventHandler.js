@@ -19,6 +19,7 @@ const handleEntry = () => {
         .then(() => getEntry())
         .then(parsedInt => {
             for (let i = 0; i < parsedInt.length; i++) {
+                
             let h2 = document.createElement("h2")
             h2.textContent = parsedInt[i].concepts
             div.appendChild(h2)
@@ -48,10 +49,3 @@ const handleEntry = () => {
 }
 
 button.addEventListener("click", handleEntry)
-
-
-// "date": "2222-02-22",
-// "concepts": "tes",
-// "entry": "tes",
-// "mood": "happy",
-// "id": 1
