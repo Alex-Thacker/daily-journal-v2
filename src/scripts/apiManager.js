@@ -14,3 +14,7 @@ const postEntry = (journalEntry) => {
     })
     .then(response => response.json())
   }
+
+  const deleteEntry = (entryId) => fetch(`http://localhost:8088/entries/${entryId}`, {
+    method: "DELETE"
+  })
