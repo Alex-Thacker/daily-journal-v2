@@ -29,7 +29,7 @@ const handleEntry = () => {
         .then(() => getEntry())
         .then(parsedInt => {
             for (let i = 0; i < parsedInt.length; i++) {
-                
+                //list entry when "record journal entry button is clicked"
             let h2 = document.createElement("h2")
             h2.textContent = parsedInt[i].concepts
             div.appendChild(h2)

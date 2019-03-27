@@ -129,7 +129,7 @@ const createForm = () => {
     form.id = "formId"
     let fieldset = document.createElement("fieldset");
     let dateLabel = document.createElement("label");
-    dateLabel.textContent = "Date of entry"
+    dateLabel.textContent = "Date of entry "
     let dateInput = document.createElement("input");
     dateInput.type = "date"
     dateInput.name = "journalDate"
@@ -147,7 +147,7 @@ const createForm = () => {
     // form2.action = "#";
     let fieldset2 = document.createElement("fieldset");
     let conceptsLabel = document.createElement("label");
-    conceptsLabel.textContent = "Concepts covered"
+    conceptsLabel.textContent = "Concepts covered "
     let conceptsInput = document.createElement("input");
     conceptsInput.type = "text"
     conceptsInput.name = "conceptsCovered"
@@ -165,7 +165,7 @@ const createForm = () => {
     // form3.action = "#";
     let fieldset3 = document.createElement("fieldset");
     let journalLabel = document.createElement("label");
-    journalLabel.textContent = "Journal entry (200 Characters allowed)"
+    journalLabel.textContent = "Journal entry (200 Characters allowed) "
     let journalTextArea = document.createElement("textarea")
     journalTextArea.maxLength = 200
     journalTextArea.for = "journalEntry"
@@ -293,10 +293,13 @@ const createForm = () => {
 }
 
 createForm()
+let entryArticle = document.createElement("article")
+
 let div = document.createElement("div")
 div.id = "divContainer"
-frag.appendChild(div)
-container.appendChild(frag)
+// div.appendChild(entryArticle)
+// frag.appendChild(div)
+// container.appendChild(frag)
 
 const createElement = (elementType, elementId, elementContent) => {
     let tag = document.createElement(elementType)
@@ -318,16 +321,49 @@ const clearElement = (parentContainer) => {
 let listElements = (object) => {
     clearElement(div)
     
-        for (let i = 0; i < object.length; i++) {
-        
-        div.appendChild(createElement("h2", undefined, object[i].concepts))
+    for (let i = 0; i < object.length; i++) {
+        //filters entries when radio buttons are clicked, excluding "show all" button
+        let entryArticle = document.createElement("article")
+        entryArticle.id = `article--${object[i].id}`
 
-        div.appendChild(createElement("p", undefined, object[i].date))
+        entryArticle.appendChild(createElement("h2", undefined, object[i].concepts))
 
-        div.appendChild(createElement("p", undefined, object[i].entry))
+        entryArticle.appendChild(createElement("p", undefined, object[i].date))
 
-        div.appendChild(createElement("p", undefined, object[i].mood))
+        entryArticle.appendChild(createElement("p", undefined, object[i].entry))
+
+        entryArticle.appendChild(createElement("p", undefined, object[i].mood))
+
+        const editButton = createElement("button", `edit--${object[i].id}`, "Edit")
+
+            entryArticle.appendChild(editButton)
+            // editButton.addEventListener("click", () => {
+            //     createEditForm(object[i].id)
+            // })
+
+        const deleteButton = createElement("button", `delete--${object[i].id}`, "Delete")
+
+            entryArticle.appendChild(deleteButton)
+            deleteButton.addEventListener("click", () => {
+                handleDeleteButton(object[i].id)
+            })
+            div.appendChild(entryArticle)
         }
 
     
 }
+
+frag.appendChild(div)
+container.appendChild(frag)
+//create form, use GET to pre fill forms. create save button. save button needs listener for patch method. clear elements. need to put entries into another container to perform clear elements more easily.  
+// const createEditForm = (entryId) => {
+
+// }
+
+
+
+// "date": "2019-03-27",
+//       "concepts": "lab",
+//       "entry": "lab day",
+//       "mood": "happy",
+//       "id": 1

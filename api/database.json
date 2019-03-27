@@ -1,3 +1,25 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "date": "2019-03-27",
+      "concepts": "lab",
+      "entry": "lab day",
+      "mood": "happy",
+      "id": 1
+    },
+    {
+      "date": "2019-03-26",
+      "concepts": "object methods",
+      "entry": "methods to filter objects",
+      "mood": "aight",
+      "id": 2
+    },
+    {
+      "date": "2019-03-25",
+      "concepts": "array methods?",
+      "entry": "array stuff",
+      "mood": "sad",
+      "id": 3
+    }
+  ]
 }
