@@ -16,9 +16,9 @@ getEntry()
             const editButton = createElement("button", `edit--${parsedInt[i].id}`, "Edit")
 
             entryArticle.appendChild(editButton)
-            // editButton.addEventListener("click", () => {
-            //     createEditForm(parsedInt[i].id)
-            // })
+            editButton.addEventListener("click", () => {
+                createEditForm(`article--${parsedInt[i].id}`)
+            })
 
             const deleteButton = createElement("button", `delete--${parsedInt[i].id}`, "Delete")
 

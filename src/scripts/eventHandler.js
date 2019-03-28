@@ -30,29 +30,42 @@ const handleEntry = () => {
         .then(parsedInt => {
             for (let i = 0; i < parsedInt.length; i++) {
                 //list entry when "record journal entry button is clicked"
-            let h2 = document.createElement("h2")
-            h2.textContent = parsedInt[i].concepts
-            div.appendChild(h2)
+            let entryArticle = document.createElement("article")
+            entryArticle.id = `article--${parsedInt[i].id}`
+            entryArticle.appendChild(createElement("h2", undefined, parsedInt[i].concepts))
+            // let h2 = document.createElement("h2")
+            // h2.textContent = parsedInt[i].concepts
+            // div.appendChild(h2)
+            
+            entryArticle.appendChild(createElement("p", undefined, parsedInt[i].date))
+            // let p1 = document.createElement("p")
+            // p1.textContent = parsedInt[i].date
+            // div.appendChild(p1)
+            
+            entryArticle.appendChild(createElement("p", undefined, parsedInt[i].entry))
+            // let p2 = document.createElement("p")
+            // p2.textContent = parsedInt[i].entry
+            // div.appendChild(p2)
 
-            let p1 = document.createElement("p")
-            p1.textContent = parsedInt[i].date
-            div.appendChild(p1)
+            entryArticle.appendChild(createElement("p", undefined, parsedInt[i].mood))
+            // let p3 = document.createElement("p")
+            // p3.textContent = parsedInt[i].mood
+            // div.appendChild(p3)
 
-            let p2 = document.createElement("p")
-            p2.textContent = parsedInt[i].entry
-            div.appendChild(p2)
+            const editButton = createElement("button", `edit--${parsedInt[i].id}`, "Edit")
 
-            let p3 = document.createElement("p")
-            p3.textContent = parsedInt[i].mood
-            div.appendChild(p3)
+            entryArticle.appendChild(editButton)
+            editButton.addEventListener("click", () => {
+                createEditForm(`article--${parsedInt[i].id}`)
+            })
 
             const deleteButton = createElement("button", `delete--${parsedInt[i].id}`, "Delete")
 
-            div.appendChild(deleteButton)
+            entryArticle.appendChild(deleteButton)
             deleteButton.addEventListener("click", () => {
                 handleDeleteButton(parsedInt[i].id)
             })
-            
+            div.appendChild(entryArticle)
             }
         })
                 while (div.firstChild) {
@@ -109,3 +122,40 @@ const handleDeleteButton = (entryId) => {
     deleteEntry(entryId)
     .then(listAll)
 }
+
+
+
+//function is called when save button is click, to save changes from edit
+//function needs to get values from input fields and use put or patch method to update api. then get method to render dom again. this render should show entries based on what mood is selected on radio buttons
+
+const handleSaveButton = (entryId) => {
+    const conceptFormId = document.querySelector("#conceptForm").value
+    const dateFormId = document.querySelector("#dateForm").value
+    const journalEntryFormId = document.querySelector("#journalEntryForm").value
+    const moodFormId = document.querySelector("#moodForm").value
+
+    const editObject = {
+        date: dateFormId,
+        concepts: conceptFormId,
+        entry: journalEntryFormId,
+        mood: moodFormId
+    }
+
+    let singleId = entryId.split("--")[1]
+
+    putEntry(singleId, editObject)
+    .then(() => {
+        if(happyRadioButton.checked === true){
+            filterMood("happy")
+        } else if (aightRadioButton.checked === true) {
+            filterMood("aight")
+        } else if (sadRadioButton.checked === true){
+            filterMood("sad")
+        } else {
+            listAll()
+        }
+    } 
+    )
+
+}
+

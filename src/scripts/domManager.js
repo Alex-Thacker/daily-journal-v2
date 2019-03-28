@@ -117,6 +117,9 @@
 
 const container = document.querySelector("#display-container");
 const frag = document.createDocumentFragment();
+
+
+
 const createForm = () => {
     //creates title
     let h1 = document.createElement("h1")
@@ -186,6 +189,7 @@ const createForm = () => {
     let fieldset4 = document.createElement("fieldset");
     let moodLabel = document.createElement("label");
     moodLabel.textContent = "Mood for the day";
+
     let moodSelect = document.createElement("select");
     moodSelect.id = "dropDown"
     moodSelect.setAttribute("required", "")
@@ -293,6 +297,7 @@ const createForm = () => {
 }
 
 createForm()
+//////////////////////// end of form that stays on the dom
 let entryArticle = document.createElement("article")
 
 let div = document.createElement("div")
@@ -337,9 +342,9 @@ let listElements = (object) => {
         const editButton = createElement("button", `edit--${object[i].id}`, "Edit")
 
             entryArticle.appendChild(editButton)
-            // editButton.addEventListener("click", () => {
-            //     createEditForm(object[i].id)
-            // })
+            editButton.addEventListener("click", () => {
+                createEditForm(`article--${object[i].id}`)
+            })
 
         const deleteButton = createElement("button", `delete--${object[i].id}`, "Delete")
 
@@ -356,10 +361,84 @@ let listElements = (object) => {
 frag.appendChild(div)
 container.appendChild(frag)
 //create form, use GET to pre fill forms. create save button. save button needs listener for patch method. clear elements. need to put entries into another container to perform clear elements more easily.  
-// const createEditForm = (entryId) => {
 
-// }
 
+const createEditForm = (entryId) => {
+    let formArticle = document.querySelector(`#${entryId}`)
+
+    clearElement(formArticle)
+
+    let singleId = entryId.split("--")[1]
+
+    // console.log(singleId)
+
+    getSingleEntry(singleId)
+    .then(response => {
+
+        //creates edit form when edit button is clicked
+        let conceptForm = createElement("input", "conceptForm")
+        let conceptFormLabel = createElement("label", undefined, "Concepts covered: ")
+        conceptForm.value = response.concepts
+        let fieldsetForm = document.createElement("fieldset")
+        fieldsetForm.classList.add("editFormClass")
+
+        fieldsetForm.appendChild(conceptFormLabel)
+        fieldsetForm.appendChild(conceptForm)
+        formArticle.appendChild(fieldsetForm)
+
+        let dateForm = createElement("input", "dateForm")
+        let dateFormLabel = createElement("label", undefined, "Date of entry: ")
+        dateForm.value = response.date
+        let fieldsetForm1 = document.createElement("fieldset")
+        fieldsetForm1.classList.add("editFormClass")
+
+        fieldsetForm1.appendChild(dateFormLabel)
+        fieldsetForm1.appendChild(dateForm)
+        formArticle.appendChild(fieldsetForm1)
+
+        let journalEntryForm = createElement("textarea", "journalEntryForm")
+        let journalEntryFormLabel = createElement("label", undefined, "Journal entry: ")
+        journalEntryForm.value = response.entry
+        // journalEntryForm.cols = 
+        // journalEntryForm.rows = 
+        let fieldsetForm2 = document.createElement("fieldset")
+        fieldsetForm2.classList.add("editFormClass")
+
+        fieldsetForm2.appendChild(journalEntryFormLabel)
+        fieldsetForm2.appendChild(journalEntryForm)
+        formArticle.appendChild(fieldsetForm2)
+
+        let moodForm = createElement("select", "moodForm")
+        let option1 = document.createElement("option");
+        option1.value = "sad"
+        option1.textContent = "sad"
+        let option2 = document.createElement("option");
+        option2.value = "happy"
+        option2.textContent = "happy"
+        let option3 = document.createElement("option");
+        option3.value = "aight"
+        option3.textContent = "aight"
+        let moodFormLabel = createElement("label", undefined, "Mood: ")
+        let fieldsetForm3 = document.createElement("fieldset")
+        fieldsetForm3.classList.add("editFormClass")
+
+        moodForm.appendChild(option2);
+        moodForm.appendChild(option3);
+        moodForm.appendChild(option1);
+        fieldsetForm3.appendChild(moodFormLabel)
+        fieldsetForm3.appendChild(moodForm)
+        formArticle.appendChild(fieldsetForm3)
+        moodForm.value = response.mood
+
+        let saveEditButton = createElement("button", `save--${singleId}`, "Save changes")
+        formArticle.appendChild(saveEditButton)
+
+        
+        saveEditButton.addEventListener("click", () => {
+            handleSaveButton(entryId)
+        })
+    })
+}
 
 
 // "date": "2019-03-27",
