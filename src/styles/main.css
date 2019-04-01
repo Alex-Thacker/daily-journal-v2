@@ -1,3 +1,22 @@
 .editFormClass{
     border: none;
 }
+
+#flexDiv-id {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: 40%;
+}
+
+.fieldset5-class{
+    width: 40%;
+}
+
+.fieldset6-class{
+    width: 40%;
+}
+
+#searchBar-id {
+    width: 90%;
+    border: solid 2px lightblue;
+}
