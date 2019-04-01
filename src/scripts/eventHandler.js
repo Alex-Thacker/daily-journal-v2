@@ -134,6 +134,8 @@ const handleSaveButton = (entryId) => {
     const journalEntryFormId = document.querySelector("#journalEntryForm").value
     const moodFormId = document.querySelector("#moodForm").value
 
+    event.preventDefault()
+
     const editObject = {
         date: dateFormId,
         concepts: conceptFormId,
@@ -159,3 +161,78 @@ const handleSaveButton = (entryId) => {
 
 }
 
+
+/////function to render dom after search bar is clicked
+let renderDom = (object, entryId) => {
+    let entryArticle = document.createElement("article")
+    entryArticle.id = `article--${entryId}`
+
+    let h2 = createElement("h2", undefined, object.concepts)
+    let p1 = createElement("p", undefined, object.date)
+    let p2 = createElement("p", undefined, object.entry)
+    let p3 = createElement("p", undefined, object.mood)
+
+    const editButton = createElement("button", `edit--${entryId}`, "Edit")
+
+    entryArticle.appendChild(editButton)
+    editButton.addEventListener("click", () => {
+        createEditForm(`article--${entryId}`)
+    })
+
+    const deleteButton = createElement("button", `delete--${entryId}`, "Delete")
+
+    entryArticle.appendChild(deleteButton)
+    deleteButton.addEventListener("click", () => {
+        handleDeleteButton(entryId)
+    })
+
+    entryArticle.appendChild(h2)
+    entryArticle.appendChild(p1)
+    entryArticle.appendChild(p2)
+    entryArticle.appendChild(p3)
+    entryArticle.appendChild(editButton)
+    entryArticle.appendChild(deleteButton)
+    div.appendChild(entryArticle)
+}
+
+
+
+
+//target search bar input field, add event listener on enter button. perform get request, then filter through object to return the object with .includes. render dom with object(s)
+
+let searchInput = document.querySelector("#searchBar-id")
+searchInput.addEventListener("keypress", () => {
+    if(event.keyCode === 13){
+        event.preventDefault()
+        // console.log(event.target.value)
+        const searchTerm = event.target.value.toLowerCase()
+        clearElement(div)
+
+        getEntry()
+        .then(response => {
+            response.forEach(entry => {
+                let entryId = entry.id
+                delete entry.id
+                console.log(entryId)
+                let entryArray = Object.values(entry)
+                // console.log(entryArray)
+                
+                const searchFilter = entryArray.filter(filterValue => {
+                    // console.log(filterValue)
+
+                    
+                    return filterValue.toLowerCase().includes(searchTerm)
+                    // searchTerm    filterValue.toLowerCase()
+                })
+                // console.log(searchFilter)
+                if(searchFilter.length > 0) {
+                    //entry is the object
+                    // console.log(entry)
+                    renderDom(entry, entryId)
+                    
+                }
+            })
+        })
+        // searchInput.value = ""
+    }
+})

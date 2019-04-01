@@ -220,9 +220,13 @@ const createForm = () => {
     //append button to form
     form.appendChild(button)
 
+    //create div to store radio buttons and search bar to perform flex display
+    let flexDiv = document.createElement("div")
+    flexDiv.id = "flexDiv-id"
 
     //Happy radio button
     let fieldset5 = document.createElement("fieldset");
+    fieldset5.classList.add("fieldset5-class")
     let legend = document.createElement("legend")
     legend.textContent = "Filter journal entries by mood"
     let radioInput1 = document.createElement("input")
@@ -285,9 +289,26 @@ const createForm = () => {
     fieldset5.appendChild(radioInput4)
     fieldset5.appendChild(radioLabel4)
 
+    //create search bar
+    let fieldset6 = document.createElement("fieldset")
+    fieldset6.classList.add("fieldset6-class")
+    let searchLegend = document.createElement("legend")
+    searchLegend.textContent = "Search journal entries"
+    let searchBar = document.createElement("input")
+    searchBar.placeholder = "Enter search term"
+    searchBar.id = "searchBar-id"
+
+    //append search bar
+    fieldset6.appendChild(searchLegend)
+    fieldset6.appendChild(searchBar)
 
 
-    form.appendChild(fieldset5)
+    flexDiv.appendChild(fieldset5)
+    flexDiv.appendChild(fieldset6)
+
+    //append radio-searchbar div to form
+    form.appendChild(flexDiv)
+
     frag.appendChild(h1)
     frag.appendChild(form)
     // frag.appendChild(form2)
@@ -439,10 +460,3 @@ const createEditForm = (entryId) => {
         })
     })
 }
-
-
-// "date": "2019-03-27",
-//       "concepts": "lab",
-//       "entry": "lab day",
-//       "mood": "happy",
-//       "id": 1
